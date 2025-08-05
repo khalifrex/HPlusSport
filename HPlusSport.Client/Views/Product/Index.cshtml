@@ -4,38 +4,124 @@
     ViewData["Title"] = "Product List";
 }
 
-<h2>@ViewData["Title"]</h2>
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>@ViewData["Title"]</h2>
+    <div>
+        <a asp-action="Create" class="btn btn-success">
+            <i class="fas fa-plus"></i> Add New Product
+        </a>
+        <a asp-controller="Category" asp-action="Index" class="btn btn-info">
+            <i class="fas fa-list"></i> Manage Categories
+        </a>
+    </div>
+</div>
+
+<!-- Search Form -->
+<div class="row mb-3">
+    <div class="col-md-6">
+        <form asp-action="Search" method="get" class="d-flex">
+            <input type="text" name="searchTerm" class="form-control" placeholder="Search products..." value="@ViewBag.SearchTerm" />
+            <button type="submit" class="btn btn-outline-primary ms-2">
+                <i class="fas fa-search"></i> Search
+            </button>
+            @if (!string.IsNullOrEmpty(ViewBag.SearchTerm))
+            {
+                <a asp-action="Index" class="btn btn-outline-secondary ms-2">Clear</a>
+            }
+        </form>
+    </div>
+</div>
+
+@if (TempData["successMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["successMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+@if (TempData["errorMessage"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        @TempData["errorMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
 
 @if (!Model.Any())
 {
-    <p>No products available.</p>
+    <div class="alert alert-info">
+        @if (!string.IsNullOrEmpty(ViewBag.SearchTerm))
+        {
+            <h5>No products found for "@ViewBag.SearchTerm"</h5>
+            <p>Try a different search term or <a asp-action="Index">view all products</a>.</p>
+        }
+        else
+        {
+            <h5>No products available.</h5>
+            <p>Create your first product to get started.</p>
+        }
+    </div>
 }
 else
 {
-    <table class="table table-bordered table-striped">
-        <thead class="table-dark">
-            <tr>
-                <th>Id</th>
-                <th>Product Name</th>
-                <th>Price ($)</th>
-                <th>Qty</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        @foreach (var product in Model)
-        {
-            <tr>
-                <td>@product.Id</td>
-                <td>@product.ProductName</td>
-                <td>@product.Price</td>
-                <td>@product.Qty</td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@product.Id" class="btn btn-sm btn-primary">Edit</a>
-                    <a asp-action="Delete" asp-route-id="@product.Id" class="btn btn-sm btn-danger">Delete</a>
-                </td>
-            </tr>
-        }
-        </tbody>
-    </table>
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>Id</th>
+                    <th>Product Name</th>
+                    <th>Category</th>
+                    <th>Price ($)</th>
+                    <th>Quantity</th>
+                    <th>Created At</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var product in Model)
+            {
+                <tr>
+                    <td>@product.Id</td>
+                    <td>@product.ProductName</td>
+                    <td>
+                        @if (product.Category != null)
+                        {
+                            <span class="badge bg-info">@product.Category.CategoryName</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-secondary">No Category</span>
+                        }
+                    </td>
+                    <td>@product.Price.ToString("C")</td>
+                    <td>
+                        @if (product.Qty > 0)
+                        {
+                            <span class="badge bg-success">@product.Qty</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-danger">Out of Stock</span>
+                        }
+                    </td>
+                    <td>@product.CreatedAt.ToString("MMM dd, yyyy")</td>
+                    <td>
+                        <div class="btn-group" role="group">
+                            <a asp-action="Edit" asp-route-id="@product.Id" class="btn btn-sm btn-primary" title="Edit">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <a asp-action="UpdateStock" asp-route-id="@product.Id" class="btn btn-sm btn-warning" title="Update Stock">
+                                <i class="fas fa-boxes"></i>
+                            </a>
+                            <a asp-action="Delete" asp-route-id="@product.Id" class="btn btn-sm btn-danger" title="Delete">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
 }

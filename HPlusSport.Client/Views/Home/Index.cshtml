@@ -3,6 +3,69 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">Welcome to HPlusSport</h1>
+    <p class="lead">Manage your products and categories with ease</p>
+</div>
+
+<div class="row mt-5">
+    <div class="col-md-6">
+        <div class="card h-100">
+            <div class="card-body text-center">
+                <i class="fas fa-box fa-3x text-primary mb-3"></i>
+                <h5 class="card-title">Product Management</h5>
+                <p class="card-text">Create, edit, and manage your product inventory. Track stock levels and organize products by categories.</p>
+                <div class="mt-auto">
+                    <a asp-controller="Product" asp-action="Index" class="btn btn-primary me-2">
+                        <i class="fas fa-list"></i> View Products
+                    </a>
+                    <a asp-controller="Product" asp-action="Create" class="btn btn-outline-primary">
+                        <i class="fas fa-plus"></i> Add Product
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card h-100">
+            <div class="card-body text-center">
+                <i class="fas fa-tags fa-3x text-success mb-3"></i>
+                <h5 class="card-title">Category Management</h5>
+                <p class="card-text">Organize your products into categories. Create and manage product categories to keep your inventory well-structured.</p>
+                <div class="mt-auto">
+                    <a asp-controller="Category" asp-action="Index" class="btn btn-success me-2">
+                        <i class="fas fa-list"></i> View Categories
+                    </a>
+                    <a asp-controller="Category" asp-action="Create" class="btn btn-outline-success">
+                        <i class="fas fa-plus"></i> Add Category
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5><i class="fas fa-info-circle"></i> Quick Start Guide</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <h6><i class="fas fa-tags"></i> Step 1: Create Categories</h6>
+                        <p class="small">Start by creating categories to organize your products (e.g., Electronics, Clothing, Books).</p>
+                    </div>
+                    <div class="col-md-4">
+                        <h6><i class="fas fa-box"></i> Step 2: Add Products</h6>
+                        <p class="small">Add products to your inventory and assign them to the appropriate categories.</p>
+                    </div>
+                    <div class="col-md-4">
+                        <h6><i class="fas fa-chart-line"></i> Step 3: Manage Inventory</h6>
+                        <p class="small">Keep track of stock levels, update product information, and manage your catalog.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

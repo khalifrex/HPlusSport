@@ -6,37 +6,55 @@
 
 <h1>Create Product</h1>
 
-<h4>Product</h4>
-<hr />
-
 <div class="row">
     <div class="col-md-6">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-            <div class="form-group">
+            <div class="form-group mb-3">
                 <label asp-for="ProductName" class="control-label"></label>
-                <input asp-for="ProductName" class="form-control" />
+                <input asp-for="ProductName" class="form-control" placeholder="Enter product name" />
                 <span asp-validation-for="ProductName" class="text-danger"></span>
             </div>
 
-            <div class="form-group">
+            <div class="form-group mb-3">
+                <label asp-for="CategoryId" class="control-label"></label>
+                <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.Categories">
+                    <option value="">-- Select Category --</option>
+                </select>
+                <span asp-validation-for="CategoryId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
                 <label asp-for="Price" class="control-label"></label>
-                <input asp-for="Price" class="form-control" />
+                <input asp-for="Price" class="form-control" step="0.01" min="0" placeholder="0.00" />
                 <span asp-validation-for="Price" class="text-danger"></span>
             </div>
 
-            <div class="form-group">
+            <div class="form-group mb-3">
                 <label asp-for="Qty" class="control-label"></label>
-                <input asp-for="Qty" class="form-control" />
+                <input asp-for="Qty" class="form-control" min="0" placeholder="0" />
                 <span asp-validation-for="Qty" class="text-danger"></span>
             </div>
 
-            <div class="form-group mt-3">
+            <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
                 <a asp-action="Index" class="btn btn-secondary">Back to List</a>
             </div>
         </form>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5>Need to add a new category?</h5>
+            </div>
+            <div class="card-body">
+                <p>If you don't see the category you need in the dropdown, you can create a new one.</p>
+                <a asp-controller="Category" asp-action="Create" class="btn btn-outline-info">
+                    <i class="fas fa-plus"></i> Create New Category
+                </a>
+            </div>
+        </div>
     </div>
 </div>
 

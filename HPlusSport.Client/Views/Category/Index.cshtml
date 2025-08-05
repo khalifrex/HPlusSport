@@ -1,0 +1,89 @@
+@model IEnumerable<HPlusSport.Client.Models.CategoryViewModel>
+
+@{
+    ViewData["Title"] = "Category List";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>@ViewData["Title"]</h2>
+    <a asp-action="Create" class="btn btn-success">
+        <i class="fas fa-plus"></i> Add New Category
+    </a>
+</div>
+
+@if (TempData["successMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["successMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+@if (TempData["errorMessage"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        @TempData["errorMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">
+        <h5>No categories available.</h5>
+        <p>Create your first category to get started.</p>
+    </div>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>Id</th>
+                    <th>Category Name</th>
+                    <th>Description</th>
+                    <th>Product Count</th>
+                    <th>Created At</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var category in Model)
+            {
+                <tr>
+                    <td>@category.Id</td>
+                    <td>@category.CategoryName</td>
+                    <td>@(category.Description ?? "No description")</td>
+                    <td>
+                        @if (category.ProductCount > 0)
+                        {
+                            <a asp-action="Products" asp-route-id="@category.Id" class="badge bg-primary text-decoration-none">
+                                @category.ProductCount Products
+                            </a>
+                        }
+                        else
+                        {
+                            <span class="badge bg-secondary">0 Products</span>
+                        }
+                    </td>
+                    <td>@category.CreatedAt.ToString("MMM dd, yyyy")</td>
+                    <td>
+                        <div class="btn-group" role="group">
+                            <a asp-action="Edit" asp-route-id="@category.Id" class="btn btn-sm btn-primary" title="Edit">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <a asp-action="Products" asp-route-id="@category.Id" class="btn btn-sm btn-info" title="View Products">
+                                <i class="fas fa-box"></i>
+                            </a>
+                            <a asp-action="Delete" asp-route-id="@category.Id" class="btn btn-sm btn-danger" title="Delete">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+}

@@ -1,15 +1,22 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.ComponentModel.DataAnnotations;
 
-namespace HPlusSport.API.Models;
-
-public class Product
+namespace HPlusSport.API.Models
 {
-    public int Id { get; set; }
-    [Required]
-    public string ProductName { get; set; } = default!;
-    [Required]
-    public decimal Price { get; set; }
-    [Required]
-    public int Qty { get; set; }
+    public class Product
+    {
+        public int Id { get; set; }
+        [Required]
+        public string ProductName { get; set; } = default!;
+        [Required]
+        public decimal Price { get; set; }
+        [Required]
+        public int Qty { get; set; }
+        [Required]
+        public int CategoryId { get; set; }
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        
+        // Navigation property (will be populated by service)
+        public Category? Category { get; set; }
+    }
 }
